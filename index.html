@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>เว็บที่ทำให้คนแก่</title>
+
+<!-- ✅ โหลดฟอนต์จาก Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Sriracha&family=Prompt:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+	
+	  .card {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+    animation: enterCard 1s ease forwards;
+  }
+
+  @keyframes enterCard {
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* เอฟเฟกต์ fade-in ของข้อความ */
+  .title h1, .title p, .message, .btn-heart, .note {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 1s ease forwards;
+  }
+
+  .title h1 { animation-delay: 0.3s; }
+  .title p.lead { animation-delay: 0.6s; }
+  .title p.sub { animation-delay: 0.9s; }
+  .message { animation-delay: 1.2s; }
+  .btn-heart { animation-delay: 1.5s; }
+  .note { animation-delay: 1.8s; }
+
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+	
+  /* ---------- Reset ---------- */
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html, body {
+    height:100%;
+    font-family: 'Prompt', sans-serif; /* ✅ เนื้อหาหลัก */
+    background: #0f172a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  
+  /* ---------- Card ---------- */
+  .card {
+    width:min(800px, 90vw);
+    background: rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px;
+    padding:30px;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  }
+
+  .top-row { display:flex; gap:20px; align-items:center; margin-bottom:20px; }
+  .avatar { width:100px; height:100px; border-radius:50%; overflow:hidden; border:2px solid rgba(255,255,255,0.1); flex-shrink:0; }
+  .avatar img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  .title h1 {
+    font-family: 'Great Vibes', cursive; /* ✅ หัวข้อ */
+    font-size:32px;
+    margin-bottom:6px;
+  }
+  .title p.lead {
+    font-family: 'Sriracha', cursive; /* ✅ ข้อความนำ */
+    opacity:0.95;
+    margin-bottom:4px;
+    font-size:18px;
+  }
+  .title p.sub {
+    font-family: 'Prompt', sans-serif; /* ✅ อ่านง่าย */
+    font-size:14px;
+    opacity:0.7;
+  }
+
+  /* ---------- Message ---------- */
+  .message {
+    min-height:120px;
+    background: rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.04);
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    text-align:center;
+    white-space:pre-wrap;
+    font-family: 'Sriracha', cursive;
+    font-weight:400;
+    font-size:20px;
+    line-height:1.7;
+    margin-bottom:20px;
+  }
+
+  .cursor {
+    width:6px; height:24px; background:#ffbfd2; display:inline-block; margin-left:5px; border-radius:3px;
+    animation: blink 1s steps(2,start) infinite;
+  }
+  @keyframes blink { 50%{opacity:0} }
+
+  /* ---------- Button ---------- */
+  .btn-heart {
+    background: linear-gradient(135deg,#ff6b9d,#ff2f6b);
+    padding:12px 20px; border-radius:999px; border:none; color:white; font-weight:700; cursor:pointer;
+    display:inline-flex; align-items:center; gap:10px; font-size:16px;
+    font-family: 'Prompt', sans-serif; /* ✅ ปุ่มอ่านง่าย */
+    box-shadow: 0 8px 30px rgba(255,40,120,0.22);
+    transition: transform .2s ease;
+  }
+  .btn-heart:active { transform: scale(0.95); }
+
+  .heart-ico { width:22px; height:22px; animation: beat 1s infinite; }
+  @keyframes beat { 0%,60%,100%{transform:scale(1);} 30%{transform:scale(1.15);} }
+
+  /* ---------- Floating hearts ---------- */
+  .floating-heart { position:absolute; width:18px; height:18px; pointer-events:none; }
+
+  /* ---------- Decorative sparkles ---------- */
+  .sparkle { position:absolute; width:6px; height:6px; border-radius:50%; background:linear-gradient(90deg,#fff,#ffd6e3); opacity:0.8; filter:blur(.3px); }
+
+  /* ---------- Footer note ---------- */
+  .note {
+    font-size:13px;
+    opacity:0.6;
+    margin-top:10px;
+    text-align:center;
+    font-family: 'Prompt', sans-serif;
+  }
+
+  @media(max-width:600px){
+    .top-row{ flex-direction:column; text-align:center; }
+    .title h1{ font-size:24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <div class="top-row">
+    <div class="avatar"><img src="https://source.boomplaymusic.com/group10/M00/06/06/0d0c58267da943b3927760c4047c5ce3_464_464.jpg" alt="Avatar"></div>
+    <div class="title">
+      <h1>จดหมายถึงคนพิเศษ</h1>
+      <p class="lead">ไอดื้อของฉัน ขอบคุณที่ทำให้ยิ้มได้ทุกวัน</p>
+      <p class="sub">รักนะ Punch👊</p>
+    </div>
+  </div>
+
+  <div class="message" id="message">
+    <span id="typed"></span><span class="cursor" id="cursor"></span>
+  </div>
+
+  <div style="text-align:center;">
+    <button class="btn-heart" id="sendBtn">
+      <svg class="heart-ico" viewBox="0 0 32 29" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M23.6 2.6c-2.6 0-4.6 1.9-5.6 3.6-1-1.7-3-3.6-5.6-3.6-3.5 0-6.4 2.8-6.4 6.3 0 7.2 8 10.9 12 15.2 4-4.3 12-8 12-15.2 0-3.5-2.9-6.3-6.4-6.3z" fill="#fff"/></svg>
+      กดทำไม?
+    </button>
+  </div>
+
+  <div class="note">
+    ขอบคุณที่รักกันและอยู่เคียงข้างเสมอ 💌<br>
+    เริ่มแก่แล้วก็ดูแลตัวเองดีๆด้วย
+  </div>
+</div>
+
+<script>
+const lines = [
+  'ไม่ว่าอนาคตของเราจะเป็นยังไงสัญญาว่าจะดูแล ฉันขอให้เธอจงมั่นใจ',
+  'แค่เพียงส่งมือมาแล้วเดินเคียงคู่กันไป',
+  'I will gonna love you until the day I die',
+  'และไม่ต้องการใครแล้วก็มีแค่เธอคนเดียว',
+  'กว่าที่เราจะมีวันนี้ ต้องผ่านอะไรกันมากมาย',
+  'เธอทำให้ชีวิตฉันที่ไม่เคยเจอเรื่องดี',
+  'มันได้เปลี่ยนไปหมดแล้ว เมื่อฉันมีเธออยู่ข้างกาย',
+];
+
+const typedEl = document.getElementById('typed');
+const cursor = document.getElementById('cursor');
+const card = document.getElementById('card');
+const sendBtn = document.getElementById('sendBtn');
+
+let lineIndex = 0, charIndex = 0;
+let typing = false;
+
+function typeNextChar() {
+  if(lineIndex >= lines.length){ typing=false; return; }
+  const line = lines[lineIndex];
+  if(charIndex < line.length){
+    typedEl.textContent += line.charAt(charIndex);
+    charIndex++;
+    setTimeout(typeNextChar, 50 + Math.random()*60);
+  } else {
+    typedEl.textContent += '\n\n';
+    lineIndex++;
+    charIndex=0;
+    setTimeout(typeNextChar, 500);
+  }
+}
+
+function spawnHeart(x,y){
+  const heart = document.createElement('div'); heart.className='floating-heart';
+  heart.style.left=x+'px'; heart.style.top=y+'px';
+  const size=12+Math.random()*20; heart.style.width=size+'px'; heart.style.height=size+'px';
+  const hue=330-Math.random()*40;
+  heart.innerHTML=`<svg viewBox="0 0 32 29" width="${size}" height="${size}" style="display:block;filter:drop-shadow(0 6px 12px rgba(0,0,0,0.25))"><path d="M23.6 2.6c-2.6 0-4.6 1.9-5.6 3.6-1-1.7-3-3.6-5.6-3.6-3.5 0-6.4 2.8-6.4 6.3 0 7.2 8 10.9 12 15.2 4-4.3 12-8 12-15.2 0-3.5-2.9-6.3-6.4-6.3z" fill="hsl(${hue} 90% 65%)"/></svg>`;
+  card.appendChild(heart);
+  const dx=(Math.random()-0.5)*120, dy=-120-Math.random()*220, rotate=(Math.random()-0.5)*720, dur=1600+Math.random()*1200;
+  heart.animate([
+    {transform:`translate(0,0) rotate(0deg) scale(0.2)`, opacity:1},
+    {transform:`translate(${dx}px, ${dy/2}px) rotate(${rotate/2}deg) scale(0.9)`, opacity:0.95},
+    {transform:`translate(${dx*1.5}px, ${dy}px) rotate(${rotate}deg) scale(0.6)`, opacity:0}
+  ],{duration:dur,easing:'cubic-bezier(.2,.7,.1,1)'}).onfinish=()=>heart.remove();
+}
+
+function spawnSpark(x,y){
+  const s=document.createElement('div'); s.className='sparkle';
+  s.style.left=x+'px'; s.style.top=y+'px';
+  const sz=4+Math.random()*6; s.style.width=sz+'px'; s.style.height=sz+'px';
+  card.appendChild(s);
+  s.animate([{transform:'translateY(0) scale(1)', opacity:1},{transform:'translateY(-60px) scale(.2)', opacity:0}],{duration:800+Math.random()*600,easing:'ease-out'}).onfinish=()=>s.remove();
+}
+
+sendBtn.addEventListener('click', ()=>{
+  if(typing) return;
+  typing = true;
+  typedEl.textContent='';
+  lineIndex=0; charIndex=0;
+  
+  const rect=sendBtn.getBoundingClientRect();
+  const cardRect=card.getBoundingClientRect();
+  const originX=rect.left+rect.width/2-cardRect.left;
+  const originY=rect.top+rect.height/2-cardRect.top;
+
+  for(let i=0;i<12;i++){ setTimeout(()=>spawnHeart(originX+(Math.random()-0.5)*40, originY+(Math.random()-0.5)*40), i*80); }
+  for(let i=0;i<18;i++){ setTimeout(()=>spawnSpark(originX+(Math.random()-0.5)*80, originY+(Math.random()-0.5)*60), i*60); }
+
+  typeNextChar();
+
+  sendBtn.animate([{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}],{duration:600,easing:'cubic-bezier(.2,.8,.2,1)'});
+});
+
+// Sparkle sprinkle
+(function sprinkle(){
+  const W=card.clientWidth, H=card.clientHeight;
+  for(let i=0;i<8;i++){
+    const s=document.createElement('div'); s.className='sparkle';
+    s.style.left=(Math.random()*W)+'px'; s.style.top=(Math.random()*H)+'px';
+    s.style.opacity=0.5+Math.random()*0.5; s.style.width=(3+Math.random()*6)+'px'; s.style.height=s.style.width;
+    card.appendChild(s);
+    s.animate([{opacity:s.style.opacity},{opacity:0}],{duration:2000+Math.random()*3000,iterations:Infinity,direction:'alternate',easing:'ease-in-out'});
+  }
+})();
+</script>
+
+</body>
+</html>
